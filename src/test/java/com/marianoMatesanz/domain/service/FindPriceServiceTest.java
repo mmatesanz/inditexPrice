@@ -17,7 +17,7 @@ import com.marianoMatesanz.domain.model.Price;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class PriceServiceTest {
+public class FindPriceServiceTest {
 
     @Autowired
     private PriceService priceService;
