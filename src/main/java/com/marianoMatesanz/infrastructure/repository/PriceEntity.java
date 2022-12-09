@@ -1,7 +1,6 @@
-package com.marianoMatesanz.domain.model;
+package com.marianoMatesanz.infrastructure.repository;
 
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,6 +14,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.marianoMatesanz.domain.Brand;
+import com.marianoMatesanz.domain.Price;
+import com.marianoMatesanz.domain.common.utils.UtilsDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +33,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "PRICES")
 @SequenceGenerator(name = "seqPrice", sequenceName = "SEQ_SYSTEM_PRICE_ID")
-public class Price {
+public class PriceEntity {
     /**
      * Unique Identifier for the Price
      */
@@ -42,7 +45,7 @@ public class Price {
      */
     @ManyToOne
     @JoinColumn(name = "BRAND_ID", insertable = true, updatable = true)
-    private Brand brand_id;
+    private BrandEntity brand;
 
     
     /**
@@ -88,6 +91,27 @@ public class Price {
      */
     @Column
     private String curr;
+    
+    public Price toPrice () {
+    	
+    	Brand brandMap = Brand.builder()
+    			.brandId(brand.getBrandId())
+    			.name(brand.getName())
+    			.build();
+    	
+    	Price priceMap = Price.builder()
+    			.systemPriceId(systemPriceId)
+    			.brand( brandMap )
+				.productId(productId)
+				.startDate(UtilsDate.convertToLocalDateTime(startDate) )
+				.endDate(UtilsDate.convertToLocalDateTime( endDate) )
+				.priceList( priceList)
+				.priority(priority)				
+				.price(price)
+				.build();
+    	
+    	return priceMap;
+    }
 
 
 

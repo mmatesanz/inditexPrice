@@ -1,4 +1,4 @@
-package com.marianoMatesanz.domain.model;
+package com.marianoMatesanz.infrastructure.repository;
 
 
 import javax.persistence.Column;
@@ -23,7 +23,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "BRANDS")
 @SequenceGenerator(name = "seqBrand", sequenceName = "SEQ_BRAND_ID")
-public class Brand {
+public class BrandEntity {
     /**
      * Unique Identifier for the Brand
      */

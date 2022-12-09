@@ -6,18 +6,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.marianoMatesanz.application.request.FindPriceRequest;
 import com.marianoMatesanz.application.response.FindPriceResponse;
+import com.marianoMatesanz.domain.Price;
 import com.marianoMatesanz.domain.common.constants.Constants;
 import com.marianoMatesanz.domain.common.mapper.Mapper;
 import com.marianoMatesanz.domain.common.utils.UtilsDate;
-import com.marianoMatesanz.domain.model.Price;
 import com.marianoMatesanz.domain.repository.PriceRepository;
+import com.marianoMatesanz.infrastructure.repository.PriceEntity;
 
 /**
  * ServiceImpl is the service class that implements Service interface In this
@@ -45,16 +45,14 @@ public class DomainPriceService implements PriceService, Constants {
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 		LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
 
-		Collection<Price> prices;
 		List<FindPriceResponse> pricesResponse = null;
 
 		try {
-			prices = priceRepository.findByPrice(findPriceRequest.getProductId(), findPriceRequest.getBrand_id(),
+			pricesResponse = priceRepository.findByPrice(findPriceRequest.getProductId(), findPriceRequest.getBrand_id(),
 					UtilsDate.convertToDateViaSqlTimestamp(findPriceRequest.getStartDate()));
-			LOGGER.debug("Price list==" + prices);
 
-			pricesResponse = prices.stream().map(price -> Mapper.priceToFindPriceResponse(price))
-					.collect(Collectors.toList());
+			LOGGER.debug("Price list==" + pricesResponse);
+
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -145,29 +143,16 @@ public class DomainPriceService implements PriceService, Constants {
 	 * @return Newly created or updated Price object
 	 */
 	@Override
-	public Price updateStartDate(Price price) {
+	public Optional<Price> updateStartDate(Price price) {
 
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 		LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
 
-		Price priceReturn = null;
+		Optional<Price> updatePrice = priceRepository.updateStartDate(price.getSystemPriceId());
 
-		Optional<Price> updatePrice = findById(price.getSystemPriceId());
-
-		if (updatePrice.isPresent()) {
-			// Set the Creation Date only during initial creation of the Price
-			if (price.getStartDate() == null)
-				updatePrice.get().setStartDate(new Date());
-
-			updatePrice.get().setPriority(price.getPriority());
-			priceReturn = priceRepository.save(updatePrice.get());
-
-		}
-
-		LOGGER.debug(" item==" + priceReturn);
 		LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
 
-		return priceReturn;
+		return updatePrice;
 	}
 
 

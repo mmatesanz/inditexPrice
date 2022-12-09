@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.marianoMatesanz.application.request.FindPriceRequest;
 import com.marianoMatesanz.application.response.FindPriceResponse;
-import com.marianoMatesanz.domain.model.Price;
+import com.marianoMatesanz.domain.Price;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

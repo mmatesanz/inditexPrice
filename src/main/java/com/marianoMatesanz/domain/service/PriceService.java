@@ -5,7 +5,8 @@ import java.util.Optional;
 
 import com.marianoMatesanz.application.request.FindPriceRequest;
 import com.marianoMatesanz.application.response.FindPriceResponse;
-import com.marianoMatesanz.domain.model.Price;
+import com.marianoMatesanz.domain.Price;
+import com.marianoMatesanz.infrastructure.repository.PriceEntity;
 
 
 public interface PriceService {
@@ -18,7 +19,7 @@ public interface PriceService {
 
 	boolean deleteById(long id);
 
-	Price updateStartDate(Price price);
+	Optional<Price> updateStartDate(Price price);
 
 
 }

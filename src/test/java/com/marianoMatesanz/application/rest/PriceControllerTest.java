@@ -3,6 +3,8 @@ package com.marianoMatesanz.application.rest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +20,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.marianoMatesanz.domain.Brand;
+import com.marianoMatesanz.domain.Price;
 import com.marianoMatesanz.domain.common.constants.Constants;
 import com.marianoMatesanz.domain.common.utils.UtilsDate;
-import com.marianoMatesanz.domain.model.Brand;
-import com.marianoMatesanz.domain.model.Price;
 import com.marianoMatesanz.domain.service.PriceService;
+import com.marianoMatesanz.infrastructure.repository.BrandEntity;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -53,9 +56,10 @@ public class PriceControllerTest implements Constants {
 
 		Brand brand1 = Brand.builder().brandId(1L).name("ZARA").build();
 
-		Price price1 = Price.builder().systemPriceId(1l).brand_id(brand1)
-				.startDate(UtilsDate.convertStringtoDate("2020-06-14T00:00:00", DATE_FORMAT))
-				.endDate(UtilsDate.convertStringtoDate("2020-12-31T23.59.59", DATE_FORMAT)).priceList(1)
+		Price price1 = Price.builder().systemPriceId(1l).brand(brand1)
+				.startDate(LocalDateTime.of(2020, Month.JUNE, 14, 19, 30, 40))
+				.endDate(LocalDateTime.of(2020, Month.DECEMBER, 31, 23, 59, 59))
+				.priceList(1)
 				.productId(PRODUCT_ID).priority(0).price(35.50).curr(CURR_EUR).build();
 
 		Optional<Price> optPrice = Optional.ofNullable(price1);
@@ -84,16 +88,21 @@ public class PriceControllerTest implements Constants {
 
 		Brand brand1 = Brand.builder().brandId(1L).name("ZARA").build();
 
-		Price price1 = Price.builder().brand_id(brand1)
-				.startDate(UtilsDate.convertStringtoDate("2020-06-14T00:00:00", DATE_FORMAT))
-				.endDate(UtilsDate.convertStringtoDate("2020-12-31T23.59.59", DATE_FORMAT)).priceList(1)
+		Price price1 = Price.builder().brand(brand1)
+				.startDate(LocalDateTime.of(2020, Month.JUNE, 14, 19, 30, 40))
+				.endDate(LocalDateTime.of(2020, Month.DECEMBER, 31, 23, 59, 59))
+				.priceList(1)
 				.productId(PRODUCT_ID).priority(0).price(35.50).curr(CURR_EUR).build();
 
-		Price priceUpdate = Price.builder().brand_id(brand1).startDate(UtilsDate.getDateNow())
-				.endDate(UtilsDate.convertStringtoDate("2020-12-31T23.59.59", DATE_FORMAT)).priceList(1)
+		Price priceUpdate = Price.builder().brand(brand1)
+				.startDate(LocalDateTime.of(2020, Month.JUNE, 14, 19, 30, 40))
+				.endDate(LocalDateTime.of(2020, Month.DECEMBER, 31, 23, 59, 59))
+				.priceList(1)
 				.productId(PRODUCT_ID).priority(0).price(35.50).curr(CURR_EUR).build();
-
-		when(priceService.updateStartDate(price1)).thenReturn(priceUpdate);
+		
+		Optional<Price> priceOpt = Optional.of(priceUpdate);
+		
+		when(priceService.updateStartDate(price1)).thenReturn(priceOpt);
 
 		ResponseEntity<Price> result = priceController.updateStartDate(price1);
 
@@ -105,31 +114,33 @@ public class PriceControllerTest implements Constants {
 
 		Brand brand1 = Brand.builder().brandId(1L).name("ZARA").build();
 
-		Price price1 = Price.builder().brand_id(brand1)
-				.startDate(UtilsDate.convertStringtoDate("2020-06-14T00:00:00", DATE_FORMAT))
-				.endDate(UtilsDate.convertStringtoDate("2020-12-31T23.59.59", DATE_FORMAT)).priceList(1)
+		Price price1 = Price.builder().brand(brand1)
+				//.startDate(UtilsDate.convertStringtoDate("2020-06-14T00:00:00", DATE_FORMAT))
+				.startDate(LocalDateTime.of(2020, Month.JUNE, 14, 19, 30, 40))
+				.endDate(LocalDateTime.of(2020, Month.DECEMBER, 31, 23, 59, 59))
+				//.endDate(UtilsDate.convertStringtoDate("2020-12-31T23.59.59", DATE_FORMAT)).priceList(1)
 				.productId(PRODUCT_ID).priority(0).price(35.50).curr(CURR_EUR).build();
 
-		Price price2 = Price.builder().brand_id(brand1)
-				.startDate(UtilsDate.convertStringtoDate("2020-06-14T15:00:00", DATE_FORMAT))
-				.endDate(UtilsDate.convertStringtoDate("2020-06-14T18.30.00", DATE_FORMAT)).priceList(2)
-				.productId(PRODUCT_ID).priority(0).price(25.45).curr(CURR_EUR).build();
-
-		Price price3 = Price.builder().brand_id(brand1)
-				.startDate(UtilsDate.convertStringtoDate("2020-06-15T00:00:00", DATE_FORMAT))
-				.endDate(UtilsDate.convertStringtoDate("2020-06-15T11.00.00", DATE_FORMAT)).priceList(3)
-				.productId(PRODUCT_ID).priority(0).price(30.50).curr(CURR_EUR).build();
-
-		Price price4 = Price.builder().brand_id(brand1)
-				.startDate(UtilsDate.convertStringtoDate("2020-06-15T16:00:00", DATE_FORMAT))
-				.endDate(UtilsDate.convertStringtoDate("2020-12-31T23.59.59", DATE_FORMAT)).priceList(4)
-				.productId(PRODUCT_ID).priority(0).price(38.95).curr(CURR_EUR).build();
+//		Price price2 = Price.builder().brand(brand1)
+//				.startDate(UtilsDate.convertStringtoDate("2020-06-14T15:00:00", DATE_FORMAT))
+//				.endDate(UtilsDate.convertStringtoDate("2020-06-14T18.30.00", DATE_FORMAT)).priceList(2)
+//				.productId(PRODUCT_ID).priority(0).price(25.45).curr(CURR_EUR).build();
+//
+//		Price price3 = Price.builder().brand(brand1)
+//				.startDate(UtilsDate.convertStringtoDate("2020-06-15T00:00:00", DATE_FORMAT))
+//				.endDate(UtilsDate.convertStringtoDate("2020-06-15T11.00.00", DATE_FORMAT)).priceList(3)
+//				.productId(PRODUCT_ID).priority(0).price(30.50).curr(CURR_EUR).build();
+//
+//		Price price4 = Price.builder().brand(brand1)
+//				.startDate(UtilsDate.convertStringtoDate("2020-06-15T16:00:00", DATE_FORMAT))
+//				.endDate(UtilsDate.convertStringtoDate("2020-12-31T23.59.59", DATE_FORMAT)).priceList(4)
+//				.productId(PRODUCT_ID).priority(0).price(38.95).curr(CURR_EUR).build();
 
 		List<Price> prices = new ArrayList<Price>();
 		prices.add(price1);
-		prices.add(price2);
-		prices.add(price3);
-		prices.add(price4);
+//		prices.add(price2);
+//		prices.add(price3);
+//		prices.add(price4);
 
 		return prices;
 

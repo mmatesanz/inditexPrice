@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marianoMatesanz.application.request.FindPriceRequest;
 import com.marianoMatesanz.application.response.FindPriceResponse;
+import com.marianoMatesanz.domain.Price;
 import com.marianoMatesanz.domain.common.constants.Constants;
-import com.marianoMatesanz.domain.model.Price;
 import com.marianoMatesanz.domain.service.PriceService;
 
 /**
@@ -83,15 +83,15 @@ public class PriceController implements Constants {
 	 *         objects
 	 */
 	@GetMapping(path="/allPrices", produces = "application/json")
-	public ResponseEntity<List<Price>> getAllPrice() {
+	public ResponseEntity< List<Price> > getAllPrice() {
 
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 		LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
 
 		try {
-			List<Price> PriceList = priceService.findAll();
-			LOGGER.debug("List==" + PriceList.toString());
-			return new ResponseEntity<>(PriceList, HttpStatus.OK);
+			List<Price> priceList = priceService.findAll();
+			LOGGER.debug("List==" + priceList.toString());
+			return new ResponseEntity<>(priceList, HttpStatus.OK);
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -163,13 +163,13 @@ public class PriceController implements Constants {
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 		LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
 
-		Price priceReturn = priceService.updateStartDate(priceUpdate);
+		 Optional<Price> priceReturn = priceService.updateStartDate(priceUpdate);
 
 		LOGGER.debug("Item==" + priceReturn != null ? "not found Price" : priceReturn.toString());
 		LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
 
-		if (priceReturn != null)
-			return new ResponseEntity<>(priceReturn, HttpStatus.OK);
+		if (priceReturn.isPresent())
+			return new ResponseEntity<>(priceReturn.get(), HttpStatus.OK);
 		else
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
