@@ -19,105 +19,81 @@ import com.marianoMatesanz.domain.model.Price;
 @RunWith(SpringRunner.class)
 public class FindPriceServiceTest {
 
-    @Autowired
-    private PriceService priceService;
-    
+	@Autowired
+	private PriceService priceService;
+
 	@Test
 	public void findAllPriceTest() {
-		
-    	List<Price> priceList = priceService.findAll();
-    	
-    	Assert.assertEquals(4, priceList.size());
-		
-	}
-	
-	
-	@Test
-	public void findPriceTest1() {
-		
-		LocalDateTime dateStart = LocalDateTime.of(2020, 06, 14, 10, 00, 00);
-		
-    	FindPriceRequest findPriceRequest = FindPriceRequest.builder()
-    			.startDate(dateStart)
-    			.productId("35455")
-    			.brand_id(1L)
-    			.build();
-    	Collection<FindPriceResponse>  priceList = priceService.findPrice(findPriceRequest);
-    	
-    	Assert.assertEquals(3, priceList.size());
-    	
-		
+
+		List<Price> priceList = priceService.findAll();
+
+		Assert.assertEquals(4, priceList.size());
+
 	}
 
-	
+	@Test
+	public void findPriceTest1() {
+
+		LocalDateTime dateStart = LocalDateTime.of(2020, 06, 14, 10, 00, 00);
+
+		FindPriceRequest findPriceRequest = FindPriceRequest.builder().startDate(dateStart).productId("35455")
+				.brand_id(1L).build();
+		Collection<FindPriceResponse> priceList = priceService.findPrice(findPriceRequest);
+
+		Assert.assertEquals(3, priceList.size());
+
+	}
+
 	@Test
 	public void findPriceTest2() {
-		
+
 		LocalDateTime dateStart = LocalDateTime.of(2020, 06, 14, 16, 00, 00);
-		
-    	FindPriceRequest findPriceRequest = FindPriceRequest.builder()
-    			.startDate(dateStart)
-    			.productId("35455")
-    			.brand_id(1L)
-    			.build();
-    	Collection<FindPriceResponse>  priceList = priceService.findPrice(findPriceRequest);
-    	
-    	Assert.assertEquals(2, priceList.size());
-    	
-		
+
+		FindPriceRequest findPriceRequest = FindPriceRequest.builder().startDate(dateStart).productId("35455")
+				.brand_id(1L).build();
+		Collection<FindPriceResponse> priceList = priceService.findPrice(findPriceRequest);
+
+		Assert.assertEquals(2, priceList.size());
+
 	}
-	
-	
+
 	@Test
 	public void findPriceTest3() {
-		
+
 		LocalDateTime dateStart = LocalDateTime.of(2020, 06, 14, 21, 00, 00);
-		
-    	FindPriceRequest findPriceRequest = FindPriceRequest.builder()
-    			.startDate(dateStart)
-    			.productId("35455")
-    			.brand_id(1L)
-    			.build();
-    	Collection<FindPriceResponse>  priceList = priceService.findPrice(findPriceRequest);
-    	
-    	Assert.assertEquals(2, priceList.size());
-    	
-		
+
+		FindPriceRequest findPriceRequest = FindPriceRequest.builder().startDate(dateStart).productId("35455")
+				.brand_id(1L).build();
+		Collection<FindPriceResponse> priceList = priceService.findPrice(findPriceRequest);
+
+		Assert.assertEquals(2, priceList.size());
+
 	}
-	
+
 	@Test
 	public void findPriceTest4() {
-		
+
 		LocalDateTime dateStart = LocalDateTime.of(2020, 06, 15, 10, 00, 00);
-		
-    	FindPriceRequest findPriceRequest = FindPriceRequest.builder()
-    			.startDate(dateStart)
-    			.productId("35455")
-    			.brand_id(1L)
-    			.build();
-    	Collection<FindPriceResponse>  priceList = priceService.findPrice(findPriceRequest);
-    	
-    	Assert.assertEquals(1, priceList.size());
-    	
-		
+
+		FindPriceRequest findPriceRequest = FindPriceRequest.builder().startDate(dateStart).productId("35455")
+				.brand_id(1L).build();
+		Collection<FindPriceResponse> priceList = priceService.findPrice(findPriceRequest);
+
+		Assert.assertEquals(1, priceList.size());
+
 	}
-	
+
 	@Test
 	public void findPriceTest5() {
-		
+
 		LocalDateTime dateStart = LocalDateTime.of(2020, 06, 16, 21, 00, 00);
-		
-    	FindPriceRequest findPriceRequest = FindPriceRequest.builder()
-    			.startDate(dateStart)
-    			.productId("35455")
-    			.brand_id(1L)
-    			.build();
-    	Collection<FindPriceResponse>  priceList = priceService.findPrice(findPriceRequest);
-    	
-    	Assert.assertEquals(0, priceList.size());
-    	
-		
+
+		FindPriceRequest findPriceRequest = FindPriceRequest.builder().startDate(dateStart).productId("35455")
+				.brand_id(1L).build();
+		Collection<FindPriceResponse> priceList = priceService.findPrice(findPriceRequest);
+
+		Assert.assertEquals(0, priceList.size());
+
 	}
-	
 
 }
