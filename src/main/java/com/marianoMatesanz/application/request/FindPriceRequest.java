@@ -11,19 +11,10 @@ import lombok.Data;
 @Builder
 public class FindPriceRequest {
 
-    /**
-     * Beginning of the range of dates
-     */
     private LocalDateTime startDate;
     
-    /**
-     * Product code identifier
-     */
     private String productId;
 
-    /**
-     * Brand´s id
-     */
     private Long brand_id;
 
 }

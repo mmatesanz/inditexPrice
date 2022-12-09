@@ -1,11 +1,8 @@
 package com.marianoMatesanz.domain.service;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +11,8 @@ import com.marianoMatesanz.application.request.FindPriceRequest;
 import com.marianoMatesanz.application.response.FindPriceResponse;
 import com.marianoMatesanz.domain.Price;
 import com.marianoMatesanz.domain.common.constants.Constants;
-import com.marianoMatesanz.domain.common.mapper.Mapper;
 import com.marianoMatesanz.domain.common.utils.UtilsDate;
 import com.marianoMatesanz.domain.repository.PriceRepository;
-import com.marianoMatesanz.infrastructure.repository.PriceEntity;
 
 /**
  * ServiceImpl is the service class that implements Service interface In this

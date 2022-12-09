@@ -12,37 +12,16 @@ import lombok.Data;
 public class FindPriceResponse {
 
     
-    /**
-     * Product code identifier
-     */
     private String productId;
 
-    /**
-     * Brand´s id
-     */
     private Long brand_id;
 
-
-    /**
-     * Applicable price rate identifier
-     */
     private int priceList;
 
-    /**
-     * Beginning of the range of dates
-     */
     private LocalDateTime startDate;    
 
-    
-    /**
-     * End of date range
-     */
     private LocalDateTime endDate;
     
-    
-    /**
-     * Final sale price
-     */
     private double price;
     
 }

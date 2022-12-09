@@ -25,6 +25,11 @@ import com.marianoMatesanz.domain.Price;
 import com.marianoMatesanz.domain.common.constants.Constants;
 import com.marianoMatesanz.domain.service.PriceService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 /**
  * Controller class for Prices This class is responsible for exposing the REST
  * APIs.
@@ -40,23 +45,23 @@ public class PriceController implements Constants {
 
 	private final PriceService priceService;
 
-	
-    @Autowired
-    public PriceController(PriceService priceService) {
-        this.priceService = priceService;
-    }
-    
-    
+	@Autowired
+	public PriceController(PriceService priceService) {
+		this.priceService = priceService;
+	}
+
 	/**
-	 * Method for creating an item in the Price This method accepts
-	 * HTTP_REQUEST_METHOD:POST
+	 * Method for Find a Price´s List HTTP_REQUEST_METHOD:POST
 	 *
 	 * @param Price object to be created
-	 * @return Response Entity with Http Status Code and Newly created Price
-	 *         object
+	 * @return Response Entity with Http Status Code and Newly created Price object
 	 */
-	
-	@PostMapping(value = "/findPrice" , consumes = "application/json", produces = "application/json")
+	@Operation(description = "Method to find prices and their characteristics")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "All prices and their characteristics", content = {
+					@Content(mediaType = "application/json") }),
+			@ApiResponse(responseCode = "404", description = "Page not found", content = @Content) })
+	@PostMapping(value = "/findPrice", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<List<FindPriceResponse>> findPrice(@RequestBody FindPriceRequest price) {
 
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
@@ -66,8 +71,8 @@ public class PriceController implements Constants {
 
 			List<FindPriceResponse> priceReturn = priceService.findPrice(price);
 
-			return new ResponseEntity<>(priceReturn!= null ? priceReturn: Collections.emptyList(), HttpStatus.OK);
-		
+			return new ResponseEntity<>(priceReturn != null ? priceReturn : Collections.emptyList(), HttpStatus.OK);
+
 		} catch (Exception ex) {
 			LOGGER.error(ex.getMessage());
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -79,11 +84,15 @@ public class PriceController implements Constants {
 	/**
 	 * Method for listing all the Prices This method accepts HTTP_REQUEST_METHOD:GET
 	 *
-	 * @return Response Entity with Http Status Code and List of all Price
-	 *         objects
+	 * @return Response Entity with Http Status Code and List of all Price objects
 	 */
-	@GetMapping(path="/allPrices", produces = "application/json")
-	public ResponseEntity< List<Price> > getAllPrice() {
+	@Operation(summary = "Method to fetch All the Prices stored in Db")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Details of All the Prices", content = {
+					@Content(mediaType = "application/json") }),
+			@ApiResponse(responseCode = "404", description = "Page not found", content = @Content) })
+	@GetMapping(path = "/allPrices", produces = "application/json")
+	public ResponseEntity<List<Price>> getAllPrice() {
 
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 		LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
@@ -104,10 +113,15 @@ public class PriceController implements Constants {
 	 * Method for listing an price by id This method accepts HTTP_REQUEST_METHOD:GET
 	 *
 	 * @param id Unique identifier of the Price
-	 * @return Response Entity with Http Status Code and Single Price object,
-	 *         based on Id
+	 * @return Response Entity with Http Status Code and Single Price object, based
+	 *         on Id
 	 */
-	@GetMapping("/{id}")
+	@Operation(summary = "Method to get  the details of particular Price in the database")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = " Prices details fetched from database", content = {
+					@Content(mediaType = "application/json") }),
+			@ApiResponse(responseCode = "404", description = " Page Not Found", content = @Content) })
+	@GetMapping(path = "/{id}", produces = "application/json")
 	public ResponseEntity<Price> getPriceById(@PathVariable("id") long id) {
 
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
@@ -131,7 +145,12 @@ public class PriceController implements Constants {
 	 * @param id Unique identifier of the Price to be deleted
 	 * @return Response Entity with Http Status Code
 	 */
-	@DeleteMapping("/{id}")
+	@Operation(summary = "Method to delete  a Price in the database by Id")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = " Price deleted from the database", content = {
+					@Content(mediaType = "application/json") }),
+			@ApiResponse(responseCode = "404", description = " Page Not Found", content = @Content) })
+	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<HttpStatus> deletePriceById(@PathVariable("id") long id) {
 
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
@@ -157,13 +176,19 @@ public class PriceController implements Constants {
 	 * @param priceUpdate Price object to be updated
 	 * @return Response Entity with Http Status Code and Updated Price object
 	 */
-	@PutMapping("/updateStartDate")
+	@Operation(summary = "Method to update the start data of  a Price")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Price update from the database", content = {
+					@Content(mediaType = "application/json") }),
+			@ApiResponse(responseCode = "404", description = " Page Not Found", content = @Content) })
+	
+	@PutMapping(path = "/updateStartDate", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Price> updateStartDate(@RequestBody Price priceUpdate) {
 
 		String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
 		LOGGER.info(MessageFormat.format(LOGGER_ENTRY, className, methodName));
 
-		 Optional<Price> priceReturn = priceService.updateStartDate(priceUpdate);
+		Optional<Price> priceReturn = priceService.updateStartDate(priceUpdate);
 
 		LOGGER.debug("Item==" + priceReturn != null ? "not found Price" : priceReturn.toString());
 		LOGGER.info(MessageFormat.format(LOGGER_EXIT, className, methodName));
@@ -174,6 +199,5 @@ public class PriceController implements Constants {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
 	}
-
 
 }

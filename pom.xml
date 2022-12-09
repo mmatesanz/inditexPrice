@@ -11,7 +11,12 @@
 	<artifactId>Price-DDD-Hexagonal</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>price-DDD-Hexagonal</name>
-	<description>Project for Inditex</description>
+	<description>Project for Inditex to work with Prices</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<dependencies>
 
