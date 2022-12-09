@@ -14,3 +14,6 @@ We will build a **Spring Boot Rest API** for Inditex.
 
 https://github.com/mmatesanz/inditexPrice.git
 
+## Functional requirements
+
+https://github.com/mmatesanz/inditexPrice.wiki.git
