@@ -8,9 +8,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.marianoMatesanz</groupId>
-	<artifactId>Inditex-Prices-Hexagonal</artifactId>
+	<artifactId>Price-DDD-Hexagonal</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>microservice-inditex-prices</name>
+	<name>price-DDD-Hexagonal</name>
 	<description>Project for Inditex</description>
 
 	<dependencies>
